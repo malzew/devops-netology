@@ -2,11 +2,11 @@
 1 commit
 
 ### Список файлов, которые будут проигнорированны
-**/.terraform/*		- все локальные директории .terraform
+***/.terraform/**		- все локальные директории .terraform
 
-*.tfstate		- файлы с расширением .tfstate
+**.tfstate		- файлы с расширением .tfstate
 
-*.tfstate.*		- файлы содержащие .tfstate.
+**.tfstate.**		- файлы содержащие .tfstate.
 
 crash.log		- файл crash.log
 
