@@ -203,6 +203,17 @@ Paths: (23 available, best #12, table default)
       rx pathid: 0, tx pathid: 0
 ```
 
+*Выбран как лучший #12 из 23. AS2497 -> AS3216 -> AS34038*
+
+```
+    Refresh Epoch 1
+      2497 3216 34038
+        202.232.0.2 from 202.232.0.2 (58.138.96.254)
+          Origin IGP, localpref 100, valid, external, best
+          path 7FE1035DFE70 RPKI State not found
+          rx pathid: 0, tx pathid: 0x0
+```
+
 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
 
     *Создаем интерфейс dummy0, назначаем адрес 10.10.10.1/24, поднимаем интерфейс*
@@ -291,9 +302,9 @@ Paths: (23 available, best #12, table default)
     ```
 
     *Слушаются порты*  
-    - *53 на локалхосте PID 617 systemd-resolve*  
-    - *22 на всех интерфейсах демон sshd PID 1022*  
-    - *111 на всех интерфейсах демон rpcbind PID 615*
+    - *53 на локалхосте PID 617 systemd-resolve. Протокол DNS*  
+    - *22 на всех интерфейсах демон sshd PID 1022. Протокол SSH*  
+    - *111 на всех интерфейсах демон rpcbind PID 615. Протокол RPC*
 
 4. Проверьте используемые UDP сокеты в Ubuntu, какие протоколы и приложения используют эти порты?
 
@@ -310,9 +321,9 @@ Paths: (23 available, best #12, table default)
     ```
 
     *Слушаются порты*  
-    - *53 на локалхосте PID 617 systemd-resolve*  
-    - *68 на 10.0.2.15 демон systemd-network PID 398*  
-    - *111 на всех интерфейсах демон rpcbind PID 615*
+    - *53 на локалхосте PID 617 systemd-resolve. Протокол DNS*  
+    - *68 на 10.0.2.15 демон systemd-network PID 398. Протокол BOOTPC*  
+    - *111 на всех интерфейсах демон rpcbind PID 615. Протокол RPC*
     
 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали. 
 
