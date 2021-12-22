@@ -130,8 +130,9 @@ done
 ```bash
 #!/usr/bin/env bash
 #
-# ./git/hooks/commit-msg
+# $REPO/.git/hooks/commit-msg
 #
+
 MSGFILE=$1
 REGEXP="\[[0-9A-Za-z-]*\]"
 
