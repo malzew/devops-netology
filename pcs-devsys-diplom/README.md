@@ -90,9 +90,9 @@ listener "tcp" {
   tls_disable = 1
 }
 ```
-*Убираем раздел с HTTPS настройками, иначе возникает конфликт с nginx по 443 порту*
+*Убираем раздел с HTTPS настройками*
 
-*Для сохранения сгенерированных ключей и сертификатов запускаем VAULT как системную службу*
+*Для сохранения сгенерированных ключей и сертификатов запускаем VAULT как демон*
 
 `sudo systemctl enable vault`
 
@@ -108,9 +108,9 @@ listener "tcp" {
 
 `vault operator unseal <UNSEALKEY1>`
 
-`vault operator unseal <UNSEALKEY>2`
+`vault operator unseal <UNSEALKEY2>`
 
-`vault operator unseal <UNSEALKEY>3`
+`vault operator unseal <UNSEALKEY3>`
 
 `unset VAULT_TOKEN`
 
@@ -125,6 +125,8 @@ listener "tcp" {
 `vault write -field=certificate pki/root/generate/internal common_name="example.com" ttl=87600h > CA_cert.crt`
 
 `vault write pki/config/urls issuing_certificates="$VAULT_ADDR/v1/pki/ca" crl_distribution_points="$VAULT_ADDR/v1/pki/crl"`
+
+*Устанавливаем корневой сертификат клиенту, процедура зависит от ОС и браузера*
 
 *Генерируем промежуточный сертификат*
 
@@ -280,6 +282,18 @@ fi
 *Создаем запись для запуска скрипта генереции сертификата, в нашем случае на запуск в 15:50 15.01*
 
 `50 15 15 1 *	/etc/nginx/ssl/vaultreqcert test.example.com`
+
+*Ждем время, проверяем по сислогу*
+
+`tail -5 /var/log/syslog`
+
+```
+Jan 15 15:50:02 vagrant systemd[1]: nginx.service: Succeeded.
+Jan 15 15:50:02 vagrant systemd[1]: Stopped A high performance web server and a reverse proxy server.
+Jan 15 15:50:02 vagrant systemd[1]: Starting A high performance web server and a reverse proxy server...
+Jan 15 15:50:02 vagrant systemd[1]: Started A high performance web server and a reverse proxy server.
+Jan 15 15:50:02 vagrant vaultreqcert: New certificate for test.example.com generated. NGINX restarted.
+```
 
 ![Screenshoot browser](./devops-netology-m1d2.png)
 
