@@ -279,7 +279,7 @@ fi
 
 *Создаем запись для запуска скрипта генереции сертификата, в нашем случае на запуск в 15:50 15.01*
 
-`0 15 15 1 *	/etc/nginx/ssl/vaultreqcert test.example.com`
+`50 15 15 1 *	/etc/nginx/ssl/vaultreqcert test.example.com`
 
 ![Screenshoot browser](./devops-netology-m1d2.png)
 
