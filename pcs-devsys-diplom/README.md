@@ -138,6 +138,8 @@ listener "tcp" {
 
 `vault write -format=json pki/root/sign-intermediate csr=@pki_intermediate.csr format=pem_bundle ttl="43800h" | jq -r '.data.certificate' > intermediate.cert.pem`
 
+`vault write pki_int/intermediate/set-signed certificate=@intermediate.cert.pem`
+
 *Создаем роль в инфраструктуре для генерации конечного сертификата*
 
 `vault write pki_int/roles/example-dot-com allowed_domains="example.com" allow_subdomains=true allow_bare_domains=true max_ttl="720h"`
