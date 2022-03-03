@@ -9,8 +9,8 @@
       - name: Create directory for ssh-keys
         file: state=directory mode=0700 dest=/root/.ssh/
 
-      - name: Adding rsa-key in /root/.ssh/authorized_keys
-        copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+      - name: Adding ed25519-key in /root/.ssh/authorized_keys
+        copy: src=~/.ssh/id_ed25519.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
         ignore_errors: yes
 
       - name: Checking DNS
