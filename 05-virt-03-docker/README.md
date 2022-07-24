@@ -32,7 +32,7 @@ Hey, Netology
 
 *Ответ*
 
-    https://hub.docker.com/repository/docker/malzew/nginx-devops
+https://hub.docker.com/repository/docker/malzew/nginx-devops
 
     `$ sudo docker run -d nginx`
 
