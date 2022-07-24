@@ -34,60 +34,60 @@ Hey, Netology
 
 https://hub.docker.com/repository/docker/malzew/nginx-devops
 
-    `$ sudo docker run -d nginx`
+`$ sudo docker run -d nginx`
 
-    ```
-    Unable to find image 'nginx:latest' locally
-    latest: Pulling from library/nginx
-    461246efe0a7: Pull complete 
-    060bfa6be22e: Pull complete 
-    b34d5ba6fa9e: Pull complete 
-    8128ac56c745: Pull complete 
-    44d36245a8c9: Pull complete 
-    ebcc2cc821e6: Pull complete 
-    Digest: sha256:1761fb5661e4d77e107427d8012ad3a5955007d997e0f4a3d41acc9ff20467c7
-    Status: Downloaded newer image for nginx:latest
-    92d8295004eb978bf324642bd8f07e8dbebbf549bf9f843312be28c7d9789aff
-    ```
+```
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+461246efe0a7: Pull complete 
+060bfa6be22e: Pull complete 
+b34d5ba6fa9e: Pull complete 
+8128ac56c745: Pull complete 
+44d36245a8c9: Pull complete 
+ebcc2cc821e6: Pull complete 
+Digest: sha256:1761fb5661e4d77e107427d8012ad3a5955007d997e0f4a3d41acc9ff20467c7
+Status: Downloaded newer image for nginx:latest
+92d8295004eb978bf324642bd8f07e8dbebbf549bf9f843312be28c7d9789aff
+```
 
-    `$ sudo docker ps`
+`$ sudo docker ps`
 
-    ```
-    CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
-    92d8295004eb   nginx     "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   80/tcp    funny_tereshkova
-    ```
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+92d8295004eb   nginx     "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   80/tcp    funny_tereshkova
+```
 
-    `$ sudo docker stop funny_tereshkova`
+`$ sudo docker stop funny_tereshkova`
 
-    *Создаем файл index.html*
+*Создаем файл index.html*
 
-    ```
-    <html>
-    <head>
-    Hey, Netology
-    </head>
-    <body>
-    <h1>I'm DevOps Engineer!</h1>
-    </body>
-    </html>
-    ```
+```
+<html>
+<head>
+Hey, Netology
+</head>
+<body>
+<h1>I'm DevOps Engineer!</h1>
+</body>
+</html>
+```
 
-    *Создаем Dockerfile*
+*Создаем Dockerfile*
 
-    ```
-    FROM nginx:latest
-    COPY ./index.html /usr/share/nginx/html/index.html
-    ```
+```
+FROM nginx:latest
+COPY ./index.html /usr/share/nginx/html/index.html
+```
 
-    `$ sudo docker build -t webserver .`
+`$ sudo docker build -t webserver .`
 
-    *Проверяем работоспособность*
+*Проверяем работоспособность*
 
-    `$ sudo docker run -it --rm -d -p 8080:80 --name web webserver`
+`$ sudo docker run -it --rm -d -p 8080:80 --name web webserver`
 
-    `$ sudo docker tag webserver malzew/nginx-devops`
+`$ sudo docker tag webserver malzew/nginx-devops`
 
-    `$ sudo docker push malzew/nginx-devops`
+`$ sudo docker push malzew/nginx-devops`
 
 ## Задача 2
 
