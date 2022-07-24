@@ -112,10 +112,37 @@ COPY ./index.html /usr/share/nginx/html/index.html
 ## Задача 3
 
 - Запустите первый контейнер из образа ***centos*** c любым тэгом в фоновом режиме, подключив папку ```/data``` из текущей рабочей директории на хостовой машине в ```/data``` контейнера;
+
+`$ sudo docker run -it --rm -d --name centos -v ~/devops-netology/05-virt-03-docker/data:/data centos`
+
 - Запустите второй контейнер из образа ***debian*** в фоновом режиме, подключив папку ```/data``` из текущей рабочей директории на хостовой машине в ```/data``` контейнера;
+
+`$ sudo docker run -it --rm -d --name debian -v ~/devops-netology/05-virt-03-docker/data:/data debian`
+
 - Подключитесь к первому контейнеру с помощью ```docker exec``` и создайте текстовый файл любого содержания в ```/data```;
+
+```
+sudo docker exec -it centos bash
+echo 123 > /data/from_centos
+```
+
 - Добавьте еще один файл в папку ```/data``` на хостовой машине;
+
+```
+echo 123456 > ~/devops-netology/05-virt-03-docker/data/from_host
+```
+
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
+
+```
+$ sudo docker exec -it debian bash
+root@17886c715d29:/# cd /data
+root@17886c715d29:/data# ls
+from_centos  from_host
+root@17886c715d29:/data# cat *
+123
+123456
+```
 
 ## Задача 4 (*)
 
@@ -123,6 +150,26 @@ COPY ./index.html /usr/share/nginx/html/index.html
 
 Соберите Docker образ с Ansible, загрузите на Docker Hub и пришлите ссылку вместе с остальными ответами к задачам.
 
+https://hub.docker.com/repository/docker/malzew/ansible
+
+```
+$ DOCKER_BUILDKIT=0
+$ sudo docker build -t malzew/ansible:2.10.0 .
+$ sudo docker push malzew/ansible:2.10.0
+The push refers to repository [docker.io/malzew/ansible]
+7cb2f63ff7e9: Pushed 
+657acdc31a57: Pushed 
+713e7675e2c1: Mounted from library/alpine 
+2.10.0: digest: sha256:303da1c24a348100c19545e921238b6d601985abb4c3a3f66ab3b1010633114b size: 947
+$ sudo docker run -it --name ansible malzew/ansible:2.10.0 /bin/sh
+/ansible # ansible --version
+ansible 2.10.17
+  config file = None
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.9.5 (default, Nov 24 2021, 21:19:13) [GCC 10.3.1 20210424]
+```
 
 ---
 
