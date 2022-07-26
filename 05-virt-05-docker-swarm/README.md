@@ -14,7 +14,7 @@
 
 - Какой алгоритм выбора лидера используется в Docker Swarm кластере?
 
-* Алоритм называется Raft.*
+*Алоритм называется Raft.*
 
 https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
 
