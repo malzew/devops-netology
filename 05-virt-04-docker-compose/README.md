@@ -46,6 +46,11 @@
 
 *Пересоздавал инфраструктуру, поэтому IP адреса другие. Правил конфиг terraform, ansible. Добавил ctop в конфиг packer.*
 
+*Использоваты дашборды для grafana. Для статистики через prometheus с выбором хоста*
+
+https://grafana.com/grafana/dashboards/10180
+https://grafana.com/grafana/dashboards/14282
+
 ![Screenshoot 4](./assets/05-virt-04-4.png)
 ![Screenshoot 5](./assets/05-virt-04-5.png)
 ![Screenshoot 6](./assets/05-virt-04-6.png)
