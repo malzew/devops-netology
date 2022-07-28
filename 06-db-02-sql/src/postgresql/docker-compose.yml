@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  postgres:
+    image: postgres:14.4
+    environment:
+      POSTGRES_USER: "su"
+      POSTGRES_PASSWORD: "superpass"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - /opt/postgresql/backup:/var/lib/postgresql/backup
+      - /opt/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
