@@ -13,7 +13,7 @@
 Приведите получившуюся команду или docker-compose манифест.
 
 ```yaml
-version: "2.1"
+version: "3.7"
 services:
   postgres:
     image: postgres:14.4
@@ -26,18 +26,43 @@ services:
       - /opt/postgresql/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    restart: unless-stopped
 ```
-
-
 
 ## Задача 2
 
 В БД из задачи 1: 
 - создайте пользователя test-admin-user и БД test_db
+
+```sql
+CREATE DATABASE test_db ENCODING 'UTF8';
+CREATE USER "test-admin-user";
+```
+
 - в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже)
+
+```sql
+CREATE TABLE orders (id serial PRIMARY KEY, наименование VARCHAR, цена INT); 
+CREATE TABLE clients (id serial PRIMARY KEY, фамилия VARCHAR, "страна проживания" VARCHAR, заказ INT REFERENCES orders(id)); 
+CREATE INDEX ON clients("страна проживания");
+```
 - предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db
-- создайте пользователя test-simple-user  
+
+```sql
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "test-admin-user";
+```
+
+- создайте пользователя test-simple-user
+
+```sql
+CREATE USER "test-simple-user";
+```
+
 - предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
+
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO "test-simple-user";
+```
 
 Таблица orders:
 - id (serial primary key)
@@ -49,17 +74,6 @@ services:
 - фамилия (string)
 - страна проживания (string, index)
 - заказ (foreign key orders)
-
-```sql
-CREATE DATABASE test_db ENCODING 'UTF8';
-CREATE USER "test-admin-user";
-CREATE TABLE orders (id serial PRIMARY KEY, наименование VARCHAR, цена INT); 
-CREATE TABLE clients (id serial PRIMARY KEY, фамилия VARCHAR, "страна проживания" VARCHAR, заказ INT REFERENCES orders(id)); 
-CREATE INDEX ON clients("страна проживания");
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "test-admin-user";
-CREATE USER "test-simple-user";
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO "test-simple-user";
-```
 
 Приведите:
 - итоговый список БД после выполнения пунктов выше,
@@ -188,11 +202,40 @@ test_db=# \du
 |Ронни Джеймс Дио| Russia|
 |Ritchie Blackmore| Russia|
 
+```commandline
+INSERT INTO orders 
+VALUES  (1, 'Шоколад', 10), 
+		(2, 'Принтер', 3000), 
+		(3, 'Книга', 500), 
+		(4, 'Монитор', 7000), 
+		(5, 'Гитара', 4000);
+INSERT INTO clients
+VALUES  (1, 'Иванов Иван Иванович', 'USA'),
+		(2, 'Петров Петр Петрович', 'Canada'),
+		(3, 'Иоганн Себастьян Бах', 'Japan'),
+		(4, 'Ронни Джеймс Дио', 'Russia'),
+		(5, 'Ritchie Blackmore', 'Russia');
+```
+
 Используя SQL синтаксис:
 - вычислите количество записей для каждой таблицы 
 - приведите в ответе:
     - запросы 
     - результаты их выполнения.
+
+```commandline
+SELECT COUNT(*) FROM orders;
+ count 
+-------
+     5
+(1 row)
+
+SELECT COUNT(*) FROM clients;
+ count 
+-------
+     5
+(1 row)
+```
 
 ## Задача 4
 
@@ -207,10 +250,22 @@ test_db=# \du
 |Иоганн Себастьян Бах| Гитара |
 
 Приведите SQL-запросы для выполнения данных операций.
+```commandline
+UPDATE clients SET "заказ"=3 WHERE id=1;
+UPDATE clients SET "заказ"=4 WHERE id=2;
+UPDATE clients SET "заказ"=5 WHERE id=3;
+```
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
- 
-Подсказк - используйте директиву `UPDATE`.
+```commandline
+SELECT * FROM clients WHERE "заказ" IS NOT NULL;
+ id |       фамилия        | страна проживания | заказ 
+----+----------------------+-------------------+-------
+  1 | Иванов Иван Иванович | USA               |     3
+  2 | Петров Петр Петрович | Canada            |     4
+  3 | Иоганн Себастьян Бах | Japan             |     5
+``` 
+Подсказка - используйте директиву `UPDATE`.
 
 ## Задача 5
 
@@ -219,17 +274,70 @@ test_db=# \du
 
 Приведите получившийся результат и объясните что значат полученные значения.
 
+```commandline
+EXPLAIN SELECT * FROM clients WHERE "заказ" IS NOT NULL;
+                        QUERY PLAN                         
+-----------------------------------------------------------
+ Seq Scan on clients  (cost=0.00..18.10 rows=806 width=72)
+   Filter: ("заказ" IS NOT NULL)
+```
+
+*cost*
+- *Первое число. Приблизительная стоимость запуска. Это время, которое проходит, прежде чем начнётся этап вывода данных, например для сортирующего узла это время сортировки.*
+- *Второе число. Приблизительная общая стоимость. Она вычисляется в предположении, что узел плана выполняется до конца, то есть возвращает все доступные строки.*
+
+*Стоимость может измеряться в произвольных единицах, определяемых параметрами планировщика. Традиционно единицей стоимости считается операция чтения страницы с диска; то есть seq_page_cost обычно равен 1.0, а другие параметры задаётся относительно него.*
+
+*rows - Ожидаемое число строк, которое должен вывести этот узел плана. При этом так же предполагается, что узел выполняется до конца.*
+
+*width - Ожидаемый средний размер строк, выводимых этим узлом плана (в байтах).*
+
+*В выводе EXPLAIN показано, что условие WHERE применено как «фильтр» к узлу плана Seq Scan (Последовательное сканирование). Это означает, что узел плана проверяет это условие для каждого просканированного им узла и выводит только те строки, которые удовлетворяют ему. Предложение WHERE повлияло на оценку числа выходных строк.*
+
+*Подробнее*
+
+https://postgrespro.ru/docs/postgresql/9.6/using-explain
+
 ## Задача 6
 
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
 
+`$ sudo docker exec postgresql_postgres_1 pg_dump -U su test_db -f /var/lib/postgresql/backup/test_db.dump`
+
 Остановите контейнер с PostgreSQL (но не удаляйте volumes).
 
+`$ sudo docker stop postgresql_postgres_1`
+`$ sudo docker rm postgresql_postgres_1`
+
+*Удаляем БД в папке /opt/postgresql/data для чистоты эксперемента.*
+
 Поднимите новый пустой контейнер с PostgreSQL.
+
+`$ sudo docker-compose up -d`
 
 Восстановите БД test_db в новом контейнере.
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+
+```commandline
+$ psql -h localhost -U su
+Password for user su: 
+psql (12.11 (Ubuntu 12.11-0ubuntu0.20.04.1), server 14.4 (Debian 14.4-1.pgdg110+1))
+WARNING: psql major version 12, server major version 14.
+         Some psql features might not work.
+Type "help" for help.
+
+su=# CREATE DATABASE test_db ENCODING 'UTF8';
+CREATE DATABASE
+su=# CREATE USER "test-admin-user";
+CREATE ROLE
+su=# CREATE USER "test-simple-user";
+CREATE ROLE
+su=# exit
+
+$ sudo docker exec postgresql_postgres_1 psql -U su -d test_db -f /var/lib/postgresql/backup/test_db.dump
+
+```
 
 ---
 
