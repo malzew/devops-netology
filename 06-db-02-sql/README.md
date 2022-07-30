@@ -306,8 +306,10 @@ https://postgrespro.ru/docs/postgresql/9.6/using-explain
 
 Остановите контейнер с PostgreSQL (но не удаляйте volumes).
 
-`$ sudo docker stop postgresql_postgres_1`
-`$ sudo docker rm postgresql_postgres_1`
+```commandline
+$ sudo docker stop postgresql_postgres_1
+$ sudo docker rm postgresql_postgres_1
+```
 
 *Удаляем БД в папке /opt/postgresql/data для чистоты эксперемента.*
 
