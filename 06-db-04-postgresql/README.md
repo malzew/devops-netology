@@ -137,7 +137,7 @@ commit;
 
 *Результаты выполнения:*
 
-```sql
+```
 test_database=# \d
                    List of relations
  Schema |     Name      |       Type        |  Owner   
@@ -235,12 +235,12 @@ $ sudo docker exec -i postgres sh -c 'exec pg_dump -d test_database -U postgres 
 
 *Поэтому, добавим в конец файла:*
 
-```commandline
+```sql
 ALTER TABLE public.orders_1 ADD UNIQUE(title);
 ALTER TABLE public.orders_2 ADD UNIQUE(title);
 ```
 
-```commandline
+```
 test_database=# \d+ orders_1
                                                       Table "public.orders_1"
  Column |         Type          | Collation | Nullable |              Default               | Storage  | Stats target | Description 
