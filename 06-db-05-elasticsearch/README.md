@@ -40,8 +40,8 @@ USER elasticsearch
 
 WORKDIR $ES_HOME
 
-RUN  wget -nv http://192.168.10.164/elasticsearch-$ES_VERSION-linux-x86_64.tar.gz \
-     && wget -nv http://192.168.10.164/elasticsearch-$ES_VERSION-linux-x86_64.tar.gz.sha512 \
+RUN  wget -nv https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ES_VERSION-linux-x86_64.tar.gz \
+     && wget -nv https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ES_VERSION-linux-x86_64.tar.gz.sha512 \
      && shasum -a 512 -c elasticsearch-$ES_VERSION-linux-x86_64.tar.gz.sha512 \
      && tar -xzf elasticsearch-$ES_VERSION-linux-x86_64.tar.gz \
      && rm -f elasticsearch-$ES_VERSION-linux-x86_64.tar.gz \
