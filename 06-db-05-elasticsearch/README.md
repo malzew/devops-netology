@@ -74,7 +74,7 @@ https://hub.docker.com/r/malzew/elasticsearch
 
 - ответ `elasticsearch` на запрос пути `/` в json виде
 
-```dockerfile
+```commandline
 $ curl -u elastic:$ELASTIC_KEY -k https://localhost:9200
 {
   "name" : "netology_test",
