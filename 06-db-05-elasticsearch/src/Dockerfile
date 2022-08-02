@@ -3,13 +3,15 @@ FROM centos:7
 ENV ES_HOME=/opt/elasticsearch
 ENV ES_VERSION=8.3.3
 
-RUN yum install -y wget perl-Digest-SHA sudo && yum clean all
+RUN yum install -y wget perl-Digest-SHA && yum clean all
 
 RUN mkdir $ES_HOME \
     && groupadd --gid 1000 elasticsearch \
     && useradd --uid 1000 --gid 1000 --home-dir $ES_HOME elasticsearch \
-    && mkdir /var/lib/elasticsearch \
-    && chown -R elasticsearch:elasticsearch $ES_HOME \
+    && mkdir /var/lib/elasticsearch
+
+
+RUN chown -R elasticsearch:elasticsearch $ES_HOME \
     && chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
 
 USER elasticsearch
