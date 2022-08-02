@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ELASTIC_KEY=rmpnLwME4FNZT2M8XJQf
+
+curl -X PUT -u elastic:$ELASTIC_KEY -k "https://localhost:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
+{
+  "type": "fs",
+  "settings": {
+    "location": "/opt/elasticsearch/snapshots/netology_backup"
+  }
+}
+'

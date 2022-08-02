@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ELASTIC_KEY=rmpnLwME4FNZT2M8XJQf
+
+curl -X GET -k -u elastic:$ELASTIC_KEY "https://localhost:9200/_cat/indices"
