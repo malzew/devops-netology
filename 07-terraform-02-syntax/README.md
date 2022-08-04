@@ -203,7 +203,7 @@ Note: You didn't use the -out option to save this plan, so Terraform can't guara
 
 [Ссылка на репозитарий](./terraform)
 
-*Для задания 2.3 решил исользовать ранее созданный ключ service_account_key_file, который не пишется в репозиторий файл key.json"
+*Для задания 2.3 решил использовать ранее созданный ключ в файле key.json, параметр в провайдере yandex service_account_key_file. Он не пишется в репозиторий.*
 
 *В задании 2.6 нашел максимально подходящие под описание аналоги для Yandex Cloud*
 
