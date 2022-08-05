@@ -21,7 +21,7 @@ resource "yandex_vpc_network" "default" {
 # Создаем подсеть
 resource "yandex_vpc_subnet" "default" {
   zone       = "ru-central1-a"
-  network_id = "${yandex_vpc_network.default.id}"
+  network_id = yandex_vpc_network.default.id
   v4_cidr_blocks = ["192.168.150.0/24"]
 }
 
@@ -42,7 +42,7 @@ resource "yandex_compute_instance" "node-01" {
   # Загрузочный диск из стандартного образа, на SSD, 40Gb
   boot_disk {
     initialize_params {
-      image_id = "${data.yandex_compute_image.ubuntu.id}"
+      image_id = data.yandex_compute_image.ubuntu.id
       type = "network-ssd"
       size = "40"
     }
@@ -55,7 +55,7 @@ resource "yandex_compute_instance" "node-01" {
 
   # Создаем сетевой интерфейс у ВМ, с адресом из ранее созданной подсети и NAT, чтобы был доступ в инет
   network_interface {
-    subnet_id = "${yandex_vpc_subnet.default.id}"
+    subnet_id = yandex_vpc_subnet.default.id
       nat = "true"
   }
 
