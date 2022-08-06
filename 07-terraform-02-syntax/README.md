@@ -201,7 +201,7 @@ Note: You didn't use the -out option to save this plan, so Terraform can't guara
  
 *Образ для yandex-cloud можно создать с помощью packer*
 
-[Ссылка на репозитарий](./terraform)
+[Ссылка на репозиторий](./terraform)
 
 *Для задания 2.3 решил использовать ранее созданный ключ в файле key.json, параметр в провайдере yandex service_account_key_file. Он не пишется в репозиторий.*
 
