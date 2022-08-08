@@ -8,7 +8,7 @@ func divby (div int, max int) [] int {
 
     v := div
 
-    for i := 2; v < max; i++ {
+    for i := 2; v <= max; i++ {
 	res = append(res,v)
 	v = i*div
     }

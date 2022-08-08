@@ -101,7 +101,7 @@ func divby (div int, max int) [] int {
 
     v := div
 
-    for i := 2; v < max; i++ {
+    for i := 2; v <= max; i++ {
 	res = append(res,v)
 	v = i*div
     }
@@ -172,8 +172,8 @@ func TestMain(t *testing.T) {
 
     var v int
     v = len(divby(3,30))
-    if v != 9 {
-	t.Error("Expected 9, got", v)
+    if v != 10 {
+	t.Error("Expected 10, got", v)
     }
 }
 ```
