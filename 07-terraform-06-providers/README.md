@@ -24,7 +24,11 @@ https://github.com/hashicorp/terraform-provider-aws/blob/4a730f58bee06b4b33c238c
       *С параметром name_prefix*  
    https://github.com/hashicorp/terraform-provider-aws/blob/4a730f58bee06b4b33c238c1044dca5dc925162b/internal/service/sqs/queue.go#L87
     * Какая максимальная длина имени?  
-    *Проверка отсутствует* 
+    *80 символов* 
     * Какому регулярному выражению должно подчиняться имя?  
-    * *Проверка отсутствует* 
+    `^[a-zA-Z0-9_-]{1,80}$` 
+
+*Функция resourceQueueCustomizeDiff проверяет*
+
+https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/service/sqs/queue.go#L407
  
