@@ -1,0 +1,12 @@
+---
+elasticsearch:
+  hosts:
+    elastic01:
+      ansible_connection: docker
+      ansible_become_method: su
+
+kibana:
+  hosts:
+    kibana01:
+      ansible_connection: docker
+      ansible_become_method: su

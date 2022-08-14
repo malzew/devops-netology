@@ -1,0 +1,4 @@
+---
+kibana_version: "8.3.3"
+kibana_home: "/opt/kibana/{{ kibana_version }}"
+elastic_ip: "{{ hostvars['elastic01']['elastic_ip']['stdout'] }}"
