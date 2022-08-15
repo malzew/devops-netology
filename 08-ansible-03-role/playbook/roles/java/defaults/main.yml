@@ -1,0 +1,6 @@
+---
+  jdk_distr_type: remote
+  jdk_url: "{{ openjdk[17] }}"
+  jdk_distr_name: openjdk-17-linux.tar.gz
+  jdk_folder: "{{ jdk_distr_name.split('-')[:2] | join('-')  }}"
+  java_home: "/opt/jdk/{{ jdk_folder }}"

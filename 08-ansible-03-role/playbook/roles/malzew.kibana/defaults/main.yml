@@ -1,0 +1,5 @@
+---
+  kibana_url: "{{ kibana[8] }}"
+  kibana_distr_name: kibana-8-linux.tar.gz
+  kibana_folder: "{{ kibana_distr_name.split('-')[:2] | join('-')  }}"
+  kibana_home: "/opt/kibana/{{ kibana_folder }}"

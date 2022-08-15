@@ -1,0 +1,11 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Check Kibana version
+    shell:
+      cmd: /opt/kibana/kibana-8/bin/kibana --version --allow-root
+    changed_when: false

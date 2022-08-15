@@ -1,0 +1,58 @@
+---
+# tasks file for kibana
+  - name: Ensure group 'kibana' exists
+    ansible.builtin.group:
+      name: kibana
+      state: present
+  - name: Add the user 'kibana' with a bash shell, appending the group 'kibana' to the user's groups
+    ansible.builtin.user:
+      name: kibana
+      shell: /bin/bash
+      groups: kibana
+      append: yes
+  - name: Download tar.gz kibana from remote URL
+    ansible.builtin.get_url:
+      url: "{{ kibana_url }}"
+      dest: "/tmp/{{ kibana_distr_name }}"
+      mode: 0755
+      timeout: 60
+      force: true
+      validate_certs: false
+    register: get_kibana
+    until: get_kibana is succeeded
+    tags: kibana
+  - name: Create directrory for kibana
+    ansible.builtin.file:
+      state: directory
+      owner: kibana
+      group: kibana
+      path: "{{ kibana_home }}"
+      mode: 0755
+    tags: kibana
+  - name: Extract kibana in the installation directory
+    become: true
+    become_user: kibana
+    ansible.builtin.unarchive:
+      copy: false
+      src: "/tmp/{{ kibana_distr_name }}"
+      dest: "{{ kibana_home }}"
+      extra_opts: [--strip-components=1]
+      creates: "{{ kibana_home }}/bin/kibana"
+    tags: kibana
+  - name: Update kibana config host IP
+    become: true
+    become_user: kibana
+    ansible.builtin.lineinfile:
+      path: "{{ kibana_home }}/config/kibana.yml"
+      regexp: '^#server.host'
+      line: 'server.host: 0.0.0.0'
+      mode: 0600
+    tags: kibana
+  - name: Set environment kibana
+    become: true
+    ansible.builtin.template:
+      src: templates/kibana.sh.j2
+      dest: /etc/profile.d/kibana.sh
+      mode: 0755
+    tags: kibana
+

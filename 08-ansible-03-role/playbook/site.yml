@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - role: java
+      tags: java
+- hosts: elasticsearch
+  roles:
+    - role: malzew.elasticsearch
+      tags: elastic
+- hosts: kibana
+  roles:
+    - role: malzew.kibana
+      tags: kibana

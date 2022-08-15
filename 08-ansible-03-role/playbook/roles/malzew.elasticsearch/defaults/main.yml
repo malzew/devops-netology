@@ -1,0 +1,5 @@
+---
+  elastic_url: "{{ elastic[8] }}"
+  elastic_distr_name: elastic-8-linux.tar.gz
+  elastic_folder: "{{ elastic_distr_name.split('-')[:2] | join('-')  }}"
+  elastic_home: "/opt/elastic/{{ elastic_folder }}"

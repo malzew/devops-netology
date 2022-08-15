@@ -1,0 +1,4 @@
+---
+# vars file for roles
+  elastic:
+    8: http://192.168.10.164/elasticsearch-8.3.3-linux-x86_64.tar.gz
