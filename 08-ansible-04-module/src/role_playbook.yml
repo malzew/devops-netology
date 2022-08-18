@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  roles:
+    - role: my_own_namespace.my_own_collection.create_file
+      vars:
+        path: "/tmp/test1.txt"
+        content: "Privet!\n"
