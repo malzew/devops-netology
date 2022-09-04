@@ -9,7 +9,7 @@
 
 *Выполнено*
 
-[Репозиторий проекта](https://gitlab.com/malzew/netology-python/-/tree/master/)
+[Репозиторий проекта](https://gitlab.com/malzew/netology-python)
 
 ## Основная часть
 
@@ -20,7 +20,7 @@
 2. Python версии не ниже 3.7
 3. Установлены зависимости: `flask` `flask-jsonpify` `flask-restful`
 
-*Для ускорения работы пайплайна по сборке докер контейнера с сервисом был собран промежуточный контейнер из Centos 7 и Python 3.7 из следующего [Dockerfile](https://gitlab.com/malzew/netology-python/-/blob/master/python37_on_centos7_docker/Dockerfile)*
+*Для ускорения работы пайплайна, по сборке докер контейнера с сервисом, был собран промежуточный контейнер из Centos 7 и Python 3.7 и следующего [Dockerfile](https://gitlab.com/malzew/netology-python/-/blob/master/python37_on_centos7_docker/Dockerfile)*
 
 ```dockerfile
 FROM centos:7
@@ -141,7 +141,7 @@ https://gitlab.com/malzew/netology-python/-/merge_requests/3
 
 После успешного прохождения всех ролей - отправьте ссылку на ваш проект в гитлаб, как решение домашнего задания
 
-[Репозиторий проекта](https://gitlab.com/malzew/netology-python/-/tree/master/)
+[Репозиторий проекта](https://gitlab.com/malzew/netology-python)
 
 ## Необязательная часть
 
